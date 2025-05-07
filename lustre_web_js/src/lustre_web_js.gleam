@@ -1,15 +1,20 @@
 import gleam/int
 import lustre
+import lustre/attribute
 import lustre/element
 import lustre/element/html
-import lustre/event
+import lustre_web_js/counter
 
 pub fn main() -> Nil {
   let app = lustre.simple(init, update, view)
+
+  let assert Ok(_) = counter.register()
   let assert Ok(_) = lustre.start(app, "#app", Nil)
 
   Nil
 }
+
+// MODEL -----------------------------------------------------------------------
 
 type Model =
   Int
@@ -18,24 +23,31 @@ fn init(_) -> Model {
   0
 }
 
-type Message {
-  Incr
-  Decr
+// UPDATE ----------------------------------------------------------------------
+
+type Msg {
+  CounterUpdatedValue(Int)
 }
 
-fn update(model: Model, msg: Message) -> Model {
+fn update(_model: Model, msg: Msg) -> Model {
   case msg {
-    Decr -> model - 1
-    Incr -> model + 1
+    CounterUpdatedValue(value) -> value
   }
 }
 
-fn view(model: Model) -> element.Element(Message) {
-  let count = int.to_string(model)
+// VIEW ------------------------------------------------------------------------
 
-  html.div([], [
-    html.button([event.on_click(Decr)], [html.text("-")]),
-    html.p([], [html.text("count: "), html.text(count)]),
-    html.button([event.on_click(Incr)], [html.text("+")]),
+fn view(model: Model) -> element.Element(Msg) {
+  html.div([attribute.class("p-32 mx-auto w-full max-w-2xl space-y-4")], [
+    html.div([attribute.class("border rounded p-2")], [
+      counter.element([
+        counter.value(model),
+        counter.on_change(CounterUpdatedValue),
+      ]),
+    ]),
+    html.p([], [
+      html.text("The last saved count was: "),
+      html.text(int.to_string(model)),
+    ]),
   ])
 }

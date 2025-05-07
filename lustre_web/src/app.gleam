@@ -1,5 +1,6 @@
 import gleam/erlang/process
 import gleam/http.{Get}
+import lustre/attribute as attr
 import lustre/element
 import lustre/element/html
 import mist
@@ -31,7 +32,10 @@ pub fn handle_request(req: Request, ctx: Context) -> Response {
   use <- wisp.require_method(req, Get)
 
   case wisp.path_segments(req) {
-    [] -> serve_html(home_page())
+    [] ->
+      home_page()
+      |> layout()
+      |> serve_html
 
     _ -> wisp.not_found()
   }
@@ -44,7 +48,10 @@ pub fn serve_html(el: element.Element(a)) -> wisp.Response {
 }
 
 fn home_page() -> element.Element(a) {
-  html.div([], [html.text("home")])
+  html.div([], [
+    html.p([], [html.text("home")]),
+    element.element("my-counter", [attr.attribute("value", "3")], []),
+  ])
 }
 
 pub fn middleware(
@@ -64,4 +71,26 @@ pub fn middleware(
 pub fn static_directory() -> String {
   let assert Ok(priv_directory) = wisp.priv_directory("app")
   priv_directory
+}
+
+pub fn layout(element: element.Element(t)) -> element.Element(t) {
+  html.html([], [
+    html.head([], [
+      html.title([], "Gleam Blocks"),
+      html.meta([
+        attr.name("viewport"),
+        attr.content("width=device-width, initial-scale=1"),
+      ]),
+      html.link([attr.rel("preconnect"), attr.href("https://fonts.bunny.net")]),
+      html.link([
+        attr.rel("stylesheet"),
+        attr.href(
+          "https://fonts.bunny.net/css?family=inter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i",
+        ),
+      ]),
+      html.link([attr.rel("stylesheet"), attr.href("/static/app.css")]),
+      html.script([attr.src("/static/counter.mjs"), attr.type_("module")], ""),
+    ]),
+    html.body([], [element]),
+  ])
 }
