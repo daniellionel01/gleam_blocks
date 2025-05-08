@@ -1512,6 +1512,9 @@ var trim_start_regex = /* @__PURE__ */ new RegExp(
   `^[${unicode_whitespaces}]*`
 );
 var trim_end_regex = /* @__PURE__ */ new RegExp(`[${unicode_whitespaces}]*$`);
+function console_log(term) {
+  console.log(term);
+}
 function new_map() {
   return Dict.new();
 }
@@ -4380,6 +4383,7 @@ function update2(model, msg) {
 }
 function view(model) {
   let count = to_string(model);
+  console_log("painting the component");
   return div(
     toList([]),
     toList([

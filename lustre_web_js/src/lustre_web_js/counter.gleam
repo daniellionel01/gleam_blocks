@@ -2,7 +2,6 @@
 
 import gleam/dynamic/decode
 import gleam/int
-import gleam/io
 import gleam/json
 import gleam/result
 import lustre.{type App}
@@ -96,8 +95,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
 pub fn view(model: Model) -> Element(Msg) {
   let count = int.to_string(model)
-
-  io.println("painting the component")
 
   html.div([], [
     html.button([event.on_click(Incr)], [html.text("+")]),
