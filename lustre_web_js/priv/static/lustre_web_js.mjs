@@ -4579,7 +4579,7 @@ function on_click(msg) {
   return on("click", success(msg));
 }
 
-// build/dev/javascript/lustre_web_js/counter.mjs
+// build/dev/javascript/lustre_web_js/lustre_web_js/counter.mjs
 var Incr = class extends CustomType {
 };
 var Decr = class extends CustomType {
