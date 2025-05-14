@@ -16,10 +16,10 @@ pub fn result_promise(fail: Bool) -> promise.Promise(Result(Int, Int))
 pub fn might_fail() -> promise.Promise(Int)
 
 pub fn main() {
-  // let _ = example1()
-  // let _ = example2()
-  // let _ = example3()
-  // let _ = example4()
+  let _ = example1()
+  let _ = example2()
+  let _ = example3()
+  let _ = example4()
   let _ = example5()
 }
 
