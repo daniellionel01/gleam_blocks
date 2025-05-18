@@ -1,5 +1,8 @@
 # Gleam Blocks
 
+## Pure Gleam
+- [Use](./pure/src/pure.gleam)
+
 ## OTP
 - [Process](./otp/src/otp/process.gleam)
 - [Task](./otp/src/otp/task.gleam)
