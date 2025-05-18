@@ -11,7 +11,7 @@
 
 ## JavaScript
 
-- [Working with Promises](./js_promsies/src/js_promises.gleam)
+- [Working with Promises](./js_promises/src/js_promises.gleam)
 
 ## Web
 - [Universal Components](./lustre_web)
